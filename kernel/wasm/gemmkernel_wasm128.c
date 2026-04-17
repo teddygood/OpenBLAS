@@ -61,7 +61,11 @@ int CNAME(BLASLONG bm, BLASLONG bn, BLASLONG bk, FLOAT alpha, IFLOAT *ba,
 #else
         FLOAT res0, res1, res2, res3;
 #endif
-        IFLOAT load0, load1, load2, load3, load4, load5, load6, load7;
+        IFLOAT load0, load1, load2, load3;
+
+#ifdef TRMMKERNEL
+        (void)offset;
+#endif
 
         for (j = 0; j < bn / 2; j += 1) {
                 C0 = C;
@@ -112,10 +116,10 @@ int CNAME(BLASLONG bm, BLASLONG bn, BLASLONG bk, FLOAT alpha, IFLOAT *ba,
                                         ptrbb += 8;
                                 }
 
-                                res0 += hsum_vec(vacc00);
-                                res1 += hsum_vec(vacc10);
-                                res2 += hsum_vec(vacc01);
-                                res3 += hsum_vec(vacc11);
+                                res0 = hsum_vec(vacc00);
+                                res1 = hsum_vec(vacc10);
+                                res2 = hsum_vec(vacc01);
+                                res3 = hsum_vec(vacc11);
                         }
 #else
                         {
@@ -152,10 +156,10 @@ int CNAME(BLASLONG bm, BLASLONG bn, BLASLONG bk, FLOAT alpha, IFLOAT *ba,
                                         ptrbb += 4;
                                 }
 
-                                res0 += hsum_vec(vacc00);
-                                res1 += hsum_vec(vacc10);
-                                res2 += hsum_vec(vacc01);
-                                res3 += hsum_vec(vacc11);
+                                res0 = hsum_vec(vacc00);
+                                res1 = hsum_vec(vacc10);
+                                res2 = hsum_vec(vacc01);
+                                res3 = hsum_vec(vacc11);
                         }
 #endif
 #else
