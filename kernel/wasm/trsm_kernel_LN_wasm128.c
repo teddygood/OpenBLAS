@@ -40,24 +40,6 @@
 
 static FLOAT dm1 = -1.;
 
-#ifndef DOUBLE
-static unsigned long long openblas_wasm128_strsm_ln_calls = 0;
-unsigned long long openblas_wasm128_get_strsm_ln_calls(void) {
-  return openblas_wasm128_strsm_ln_calls;
-}
-void openblas_wasm128_reset_strsm_ln_calls(void) {
-  openblas_wasm128_strsm_ln_calls = 0;
-}
-#else
-static unsigned long long openblas_wasm128_dtrsm_ln_calls = 0;
-unsigned long long openblas_wasm128_get_dtrsm_ln_calls(void) {
-  return openblas_wasm128_dtrsm_ln_calls;
-}
-void openblas_wasm128_reset_dtrsm_ln_calls(void) {
-  openblas_wasm128_dtrsm_ln_calls = 0;
-}
-#endif
-
 #ifdef CONJ
 #define GEMM_KERNEL   GEMM_KERNEL_L
 #else
@@ -256,12 +238,6 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG k,  FLOAT dummy1,
 	   FLOAT dummy2,
 #endif
 	   FLOAT *a, FLOAT *b, FLOAT *c, BLASLONG ldc, BLASLONG offset){
-
-#ifndef DOUBLE
-  openblas_wasm128_strsm_ln_calls += 1;
-#else
-  openblas_wasm128_dtrsm_ln_calls += 1;
-#endif
 
   BLASLONG i, j;
   FLOAT *aa, *cc;

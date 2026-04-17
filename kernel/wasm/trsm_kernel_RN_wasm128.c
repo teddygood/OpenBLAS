@@ -38,24 +38,6 @@
 
 #include "common.h"
 
-#ifndef DOUBLE
-static unsigned long long openblas_wasm128_strsm_rn_calls = 0;
-unsigned long long openblas_wasm128_get_strsm_rn_calls(void) {
-  return openblas_wasm128_strsm_rn_calls;
-}
-void openblas_wasm128_reset_strsm_rn_calls(void) {
-  openblas_wasm128_strsm_rn_calls = 0;
-}
-#else
-static unsigned long long openblas_wasm128_dtrsm_rn_calls = 0;
-unsigned long long openblas_wasm128_get_dtrsm_rn_calls(void) {
-  return openblas_wasm128_dtrsm_rn_calls;
-}
-void openblas_wasm128_reset_dtrsm_rn_calls(void) {
-  openblas_wasm128_dtrsm_rn_calls = 0;
-}
-#endif
-
 static FLOAT dm1 = -1.;
 
 #ifdef CONJ
@@ -246,12 +228,6 @@ int CNAME(BLASLONG m, BLASLONG n, BLASLONG k, FLOAT dummy1,
 	   FLOAT dummy2,
 #endif
 	   FLOAT *a, FLOAT *b, FLOAT *c, BLASLONG ldc, BLASLONG offset){
-
-#ifndef DOUBLE
-  openblas_wasm128_strsm_rn_calls += 1;
-#else
-  openblas_wasm128_dtrsm_rn_calls += 1;
-#endif
 
   FLOAT *aa, *cc;
   BLASLONG  kk;
